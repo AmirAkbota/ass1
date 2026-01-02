@@ -1,19 +1,47 @@
-public class Main {
+import java.util.Scanner;
+   public class Main{
     public static void main(String[] args) {
-        Doctor doctor1 = new Doctor("Madina", "Therapist","City Hospital","+77005632345");
-        Doctor doctor2= new Doctor("Akerke","Therapist","National Hospital","+77084561234");
-        Doctor doctor3=new Doctor("Aidana","Cardiologist","Village Hospital","+77787894561");
 
-        Patient patient1=new Patient("Zhanar","+777084563296",54);
-        Patient patient2=new Patient("Altynai","+77006598743",54);
-        Patient patient3=new Patient("Zhayna","+77081235487",34);
+        Scanner sc = new Scanner(System.in);
+        Hospital hospital = new Hospital();
 
-        Hospital hospital1=new Hospital("City Hospital","Kyzylorda","+77084561239");
-        Hospital hospital2=new Hospital("National Hospital","Karagandy","+77779638521");
-        Hospital hospital3=new Hospital("Village Hospital","Taraz","+77784587423");
+        hospital.addPatient(new Patient("Amina", "+77085236981", 19));
+        hospital.addPatient(new Patient("Dana", "+77084561278", 20));
+        hospital.addPatient(new Patient("Altynai", "+77052369875", 23));
+        hospital.addDoctor(new Doctor("Madina", "+77070000000", "Therapist"));
+        hospital.addDoctor(new Doctor("Meruert","+77758453612","Cardiologist"));
 
+        System.out.print("Enter phone to search patient: ");
+        String phone = sc.nextLine();
+        Patient p = hospital.findPatientByPhone(phone);
+        System.out.println(p == null ? "Not found" : p);
 
-        System.out.println("Do they have the same profession? "+doctor1.getDoctorSpeciality().equals(doctor2.getDoctorSpeciality()));
-        System.out.println("Do they have the same age? "+(patient1.getAge()==(patient2.getAge())));
-    }
-}
+        System.out.print("Enter name to search patient: ");
+        String name = sc.nextLine();
+        Patient byName = hospital.findPatientByName(name);
+        System.out.println(byName == null ? "Not found" : byName);
+
+        hospital.sortPatientsByName();
+        System.out.println("After sorting:");
+        for (Patient patient : hospital.getPatients()) {
+            System.out.println(patient);
+        }
+        System.out.println("Add new doctor:");
+
+        System.out.print("Enter doctor full name: ");
+        String dName = sc.nextLine();
+
+        System.out.print("Enter doctor phone number: ");
+        String dPhone = sc.nextLine();
+
+        System.out.print("Enter doctor speciality: ");
+        String dSpec = sc.nextLine();
+
+        hospital.addDoctor(new Doctor(dName, dPhone, dSpec));
+
+     System.out.println("Doctors list:");
+     for (Doctor d : hospital.getDoctors()) {
+           System.out.println(d);
+       }
+
+   } }
