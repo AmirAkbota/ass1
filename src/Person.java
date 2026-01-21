@@ -6,8 +6,14 @@ public abstract class Person {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
     }
-    public String getFullName() { return fullName; }
-    public String getPhoneNumber() { return phoneNumber; }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     public abstract String getRole();
 }

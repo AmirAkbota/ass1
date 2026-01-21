@@ -1,47 +1,98 @@
 import java.util.Scanner;
-   public class Main{
+
+public class Main {
     public static void main(String[] args) {
+
+        if (DBConnection.getConnection() == null) {
+            System.out.println("NOT CONNECTED");
+            return;
+        }
+        System.out.println("CONNECTED TO DATABASE");
 
         Scanner sc = new Scanner(System.in);
         Hospital hospital = new Hospital();
 
-        hospital.addPatient(new Patient("Amina", "+77085236981", 19));
-        hospital.addPatient(new Patient("Dana", "+77084561278", 20));
-        hospital.addPatient(new Patient("Altynai", "+77052369875", 23));
-        hospital.addDoctor(new Doctor("Madina", "+77070000000", "Therapist"));
-        hospital.addDoctor(new Doctor("Meruert","+77758453612","Cardiologist"));
+        while (true) {
+            System.out.println("\n===== HOSPITAL SYSTEM =====");
+            System.out.println("1 - Add patient (INSERT)");
+            System.out.println("2 - Show all patients (SELECT)");
+            System.out.println("3 - Search patient (SELECT)");
+            System.out.println("4 - Update patient age (UPDATE)");
+            System.out.println("5 - Delete patient (DELETE)");
+            System.out.println("6 - Exit");
+            System.out.print("Choose option: ");
 
-        System.out.print("Enter phone to search patient: ");
-        String phone = sc.nextLine();
-        Patient p = hospital.findPatientByPhone(phone);
-        System.out.println(p == null ? "Not found" : p);
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        System.out.print("Enter name to search patient: ");
-        String name = sc.nextLine();
-        Patient byName = hospital.findPatientByName(name);
-        System.out.println(byName == null ? "Not found" : byName);
 
-        hospital.sortPatientsByName();
-        System.out.println("After sorting:");
-        for (Patient patient : hospital.getPatients()) {
-            System.out.println(patient);
-        }
-        System.out.println("Add new doctor:");
+            switch (choice) {
 
-        System.out.print("Enter doctor full name: ");
-        String dName = sc.nextLine();
+                case 1:
+                    System.out.print("Enter full name: ");
+                    String name = sc.nextLine();
 
-        System.out.print("Enter doctor phone number: ");
-        String dPhone = sc.nextLine();
+                    System.out.print("Enter phone number: ");
+                    String phone = sc.nextLine();
 
-        System.out.print("Enter doctor speciality: ");
-        String dSpec = sc.nextLine();
+                    System.out.print("Enter age: ");
+                    int age = sc.nextInt();
+                    sc.nextLine();
 
-        hospital.addDoctor(new Doctor(dName, dPhone, dSpec));
+                    PatientDB.addPatient(new Patient(name, phone, age));
+                    break;
 
-     System.out.println("Doctors list:");
-     for (Doctor d : hospital.getDoctors()) {
-           System.out.println(d);
-       }
+                case 2:
+                    System.out.println("\nPatients list:");
+                    for (Patient p : PatientDB.getAllPatients()) {
+                        System.out.println(p);
+                    }
+                    break;
 
-   } }
+                case 3:
+                    System.out.println("1 - Search by phone");
+                    System.out.println("2 - Search by name");
+                    System.out.print("Choose: ");
+                    int searchType = sc.nextInt();
+                    sc.nextLine();
+
+                    if (searchType == 1) {
+                        System.out.print("Enter phone: ");
+                        String ph = sc.nextLine();
+                        Patient p = PatientDB.findPatientByPhone(ph);
+                        System.out.println(p == null ? "Not found" : p);
+                    } else if (searchType == 2) {
+                        System.out.print("Enter name: ");
+                        String nm = sc.nextLine();
+                        Patient p = PatientDB.findPatientByName(nm);
+                        System.out.println(p == null ? "Not found" : p);
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter patient phone: ");
+                    String updPhone = sc.nextLine();
+
+                    System.out.print("Enter new age: ");
+                    int newAge = sc.nextInt();
+                    sc.nextLine();
+
+                    PatientDB.updatePatientAge(updPhone, newAge);
+                    break;
+
+                case 5:
+                    System.out.print("Enter patient phone to delete: ");
+                    String delPhone = sc.nextLine();
+
+                    PatientDB.deletePatientByPhone(delPhone);
+                    break;
+
+                case 6:
+                    System.out.println("Exit program");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Wrong option");
+            }
+        }}}
