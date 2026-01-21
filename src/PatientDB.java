@@ -4,7 +4,6 @@ import java.util.List;
 
 public class PatientDB {
 
-    // CREATE (INSERT)
     public static void addPatient(Patient patient) {
         String sql = "INSERT INTO patients (full_name, phone_number, age) VALUES (?, ?, ?)";
 
@@ -17,12 +16,10 @@ public class PatientDB {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            // норм: UNIQUE constraint
             System.out.println("Patient already exists: " + patient.getPhoneNumber());
         }
     }
 
-    // READ (SELECT)
     public static List<Patient> getAllPatients() {
         List<Patient> list = new ArrayList<>();
         String sql = "SELECT full_name, phone_number, age FROM patients";
@@ -44,7 +41,6 @@ public class PatientDB {
         return list;
     }
 
-    // UPDATE
     public static void updatePatientAge(String phoneNumber, int newAge) {
         String sql = "UPDATE patients SET age = ? WHERE phone_number = ?";
 
@@ -66,7 +62,6 @@ public class PatientDB {
         }
     }
 
-    // DELETE
     public static void deletePatientByPhone(String phoneNumber) {
         String sql = "DELETE FROM patients WHERE phone_number = ?";
 
